@@ -1,226 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>My Dashboard | Budget Buddy</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Budget Buddy</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
-<body class="dashboard-page">
+<body class="dashboard-body">
 
+<div class="dashboard-container">
 
-    <!-- Sidebar -->
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="sidebar-logo">
-            👛 <span>Budget <strong>Buddy</strong></span>
+            💜 Budget Buddy
         </div>
 
+        <div class="sidebar-menu">
 
-        <nav class="side-nav">
-
-            <a href="#dashboard" class="side-link active">
+            <a href="user-dashboard.html" class="active">
                 🏠 Dashboard
             </a>
 
-            <a href="#budget" class="side-link">
-                💜 My Budget
+            <a href="#budgetSection">
+                💰 My Budget
             </a>
 
-            <a href="#transactions" class="side-link">
-                📊 Transactions
+            <a href="#transactionSection">
+                📋 Transactions
             </a>
 
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <div class="side-tip">
-                ✨ <strong>Buddy Tip</strong>
-
-                <p>
-                    Every small saving
-                    counts!
-                </p>
-            </div>
-
-            <button
-                onclick="logout()"
-                class="side-logout">
-
-                🚪 Logout
-
-            </button>
+            <a href="#goalSection">
+                🎯 My Goals
+            </a>
 
         </div>
+
+        <button class="logout-btn" onclick="logout()">
+            🚪 Logout
+        </button>
 
     </aside>
 
 
-    <!-- Main Content -->
-
+    <!-- MAIN CONTENT -->
     <main class="dashboard-main">
 
-
-        <!-- Top Bar -->
-
-        <header class="dashboard-top">
+        <div class="dashboard-header">
 
             <div>
-
-                <p class="small-heading">
-                    YOUR FINANCIAL SPACE
-                </p>
-
-                <h1>
-                    Hello, <span id="userName"></span>! 👋
-                </h1>
-
-                <p>
-                    Let's make your money work smarter today.
-                </p>
-
+                <h1>Welcome, <span id="userName">User</span>! 👋</h1>
+                <p>Manage your finances from one place.</p>
             </div>
 
-            <div class="profile-circle">
-                👤
+        </div>
+
+
+        <!-- SUMMARY CARDS -->
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <div class="card-icon">💰</div>
+                <h3>Monthly Budget</h3>
+                <p id="budgetDisplay">₹0</p>
             </div>
 
-        </header>
-
-
-        <!-- Summary Cards -->
-
-        <section class="dashboard-cards">
-
-            <div class="dashboard-card purple-card">
-
-                <div class="card-top">
-                    <span>Total Budget</span>
-                    <span class="card-icon">💜</span>
-                </div>
-
-                <h2 id="totalBudget">
-                    ₹0
-                </h2>
-
-                <p>
-                    Your planned budget
-                </p>
-
+            <div class="dashboard-card">
+                <div class="card-icon">📈</div>
+                <h3>Total Income</h3>
+                <p id="incomeDisplay">₹0</p>
             </div>
 
-
-            <div class="dashboard-card green-card">
-
-                <div class="card-top">
-                    <span>Total Income</span>
-                    <span class="card-icon">💰</span>
-                </div>
-
-                <h2 id="totalIncome">
-                    ₹0
-                </h2>
-
-                <p>
-                    Money coming in
-                </p>
-
+            <div class="dashboard-card">
+                <div class="card-icon">📉</div>
+                <h3>Total Expenses</h3>
+                <p id="expenseDisplay">₹0</p>
             </div>
 
-
-            <div class="dashboard-card pink-card">
-
-                <div class="card-top">
-                    <span>Total Expenses</span>
-                    <span class="card-icon">🛍️</span>
-                </div>
-
-                <h2 id="totalExpense">
-                    ₹0
-                </h2>
-
-                <p>
-                    Money spent
-                </p>
-
+            <div class="dashboard-card">
+                <div class="card-icon">💵</div>
+                <h3>Remaining Balance</h3>
+                <p id="remainingDisplay">₹0</p>
             </div>
 
-
-            <div class="dashboard-card blue-card">
-
-                <div class="card-top">
-                    <span>Remaining</span>
-                    <span class="card-icon">🎯</span>
-                </div>
-
-                <h2 id="balance">
-                    ₹0
-                </h2>
-
-                <p>
-                    Available balance
-                </p>
-
-            </div>
-
-        </section>
+        </div>
 
 
-        <!-- Budget Section -->
+        <!-- BUDGET SECTION -->
+        <section class="dashboard-section" id="budgetSection">
 
-        <section id="budget" class="dashboard-section">
+            <h2>💰 Set Monthly Budget</h2>
 
-            <div class="section-heading">
-
-                <div>
-                    <span class="section-label">
-                        PLAN AHEAD
-                    </span>
-
-                    <h2>
-                        Set Your Monthly Budget 💜
-                    </h2>
-
-                    <p>
-                        Give your money a plan before
-                        you start spending.
-                    </p>
-                </div>
-
-                <div class="section-emoji">
-                    🎯
-                </div>
-
-            </div>
-
-
-            <form id="budgetForm"
-                  class="budget-form">
+            <form id="budgetForm" class="inline-form">
 
                 <input
                     type="number"
-                    id="budgetAmount"
-                    placeholder="Enter your monthly budget"
+                    id="budgetInput"
+                    placeholder="Enter monthly budget"
                     min="0"
                     required
                 >
 
-                <button type="submit"
-                        class="purple-button">
-
-                    Set Budget →
-
+                <button type="submit" class="btn">
+                    Save Budget
                 </button>
 
             </form>
@@ -228,58 +112,29 @@
         </section>
 
 
-        <!-- Add Transaction -->
+        <!-- TRANSACTION SECTION -->
+        <section class="dashboard-section" id="transactionSection">
 
-        <section class="dashboard-section">
+            <h2>📋 Add Transaction</h2>
 
-            <div class="section-heading">
+            <form id="transactionForm" class="transaction-form">
 
-                <div>
+                <div class="form-group">
 
-                    <span class="section-label">
-                        MONEY MOVEMENT
-                    </span>
+                    <label>Transaction Type</label>
 
-                    <h2>
-                        Add a Transaction 💸
-                    </h2>
-
-                    <p>
-                        Keep track of every rupee.
-                    </p>
-
-                </div>
-
-                <div class="section-emoji">
-                    💸
-                </div>
-
-            </div>
-
-
-            <form id="transactionForm"
-                  class="transaction-form">
-
-
-                <div class="form-field">
-
-                    <label>
-                        Type
-                    </label>
-
-                    <select id="transactionType"
-                            required>
+                    <select id="transactionType" required>
 
                         <option value="">
                             Select Type
                         </option>
 
-                        <option value="income">
-                            💰 Income
+                        <option value="Income">
+                            Income
                         </option>
 
-                        <option value="expense">
-                            💸 Expense
+                        <option value="Expense">
+                            Expense
                         </option>
 
                     </select>
@@ -287,78 +142,61 @@
                 </div>
 
 
-                <div class="form-field">
+                <div class="form-group">
 
-                    <label>
-                        Description
-                    </label>
-
-                    <input
-                        type="text"
-                        id="transactionDescription"
-                        placeholder="e.g. Grocery shopping"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label>
-                        Amount
-                    </label>
+                    <label>Amount</label>
 
                     <input
                         type="number"
                         id="transactionAmount"
-                        placeholder="₹ Amount"
-                        min="1"
+                        placeholder="Enter amount"
+                        min="0"
                         required
                     >
 
                 </div>
 
 
-                <div class="form-field">
+                <div class="form-group">
 
-                    <label>
-                        Category
-                    </label>
+                    <label>Category</label>
 
-                    <select id="transactionCategory"
-                            required>
+                    <select id="transactionCategory" required>
 
                         <option value="">
                             Select Category
                         </option>
 
                         <option value="Food">
-                            🍔 Food
-                        </option>
-
-                        <option value="Transport">
-                            🚌 Transport
-                        </option>
-
-                        <option value="Education">
-                            📚 Education
+                            Food
                         </option>
 
                         <option value="Shopping">
-                            🛍️ Shopping
+                            Shopping
+                        </option>
+
+                        <option value="Travel">
+                            Travel
+                        </option>
+
+                        <option value="Education">
+                            Education
                         </option>
 
                         <option value="Bills">
-                            🧾 Bills
+                            Bills
                         </option>
 
                         <option value="Entertainment">
-                            🎬 Entertainment
+                            Entertainment
+                        </option>
+
+                        <option value="Salary">
+                            Salary
                         </option>
 
                         <option value="Other">
-                            ✨ Other
+                            Other
                         </option>
 
                     </select>
@@ -366,11 +204,35 @@
                 </div>
 
 
-                <button type="submit"
-                        class="purple-button transaction-button">
+                <div class="form-group">
 
-                    + Add Transaction
+                    <label>Description</label>
 
+                    <input
+                        type="text"
+                        id="transactionDescription"
+                        placeholder="Example: Lunch at college"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <input
+                        type="date"
+                        id="transactionDate"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit" class="btn">
+                    Add Transaction
                 </button>
 
             </form>
@@ -378,31 +240,10 @@
         </section>
 
 
-        <!-- Transaction History -->
+        <!-- RECENT TRANSACTIONS -->
+        <section class="dashboard-section">
 
-        <section id="transactions"
-                 class="dashboard-section">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <span class="section-label">
-                        YOUR ACTIVITY
-                    </span>
-
-                    <h2>
-                        Transaction History 📊
-                    </h2>
-
-                </div>
-
-                <div class="section-emoji">
-                    📋
-                </div>
-
-            </div>
-
+            <h2>📋 Recent Transactions</h2>
 
             <div class="table-container">
 
@@ -411,31 +252,17 @@
                     <thead>
 
                         <tr>
-
-                            <th>
-                                Description
-                            </th>
-
-                            <th>
-                                Type
-                            </th>
-
-                            <th>
-                                Category
-                            </th>
-
-                            <th>
-                                Amount
-                            </th>
-
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Action</th>
                         </tr>
 
                     </thead>
 
-
-                    <tbody id="transactionList">
-
-                    </tbody>
+                    <tbody id="transactionTable"></tbody>
 
                 </table>
 
@@ -444,17 +271,43 @@
         </section>
 
 
-        <footer class="dashboard-footer">
+        <!-- FINANCIAL GOAL -->
+        <section class="dashboard-section" id="goalSection">
 
-            Made with 💜 by Budget Buddy
+            <h2>🎯 My Financial Goal</h2>
 
-        </footer>
+            <form id="goalForm" class="inline-form">
+
+                <input
+                    type="text"
+                    id="goalName"
+                    placeholder="Goal name"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="goalAmount"
+                    placeholder="Target amount"
+                    min="0"
+                    required
+                >
+
+                <button type="submit" class="btn">
+                    Save Goal
+                </button>
+
+            </form>
+
+            <div id="goalDisplay" class="goal-display"></div>
+
+        </section>
 
     </main>
 
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
-
 </html>

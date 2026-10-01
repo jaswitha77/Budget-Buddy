@@ -1,144 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Login | Budget Buddy</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Budget Buddy</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
-<body class="purple-page">
+<body class="auth-page">
 
-    <main class="auth-page">
+    <!-- Navbar -->
+    <nav class="auth-navbar">
+        <div class="logo">💜 Budget Buddy</div>
 
-        <!-- Welcome Side -->
+        <div class="auth-nav-links">
+            <a href="index.html">Home</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </nav>
 
-        <section class="auth-welcome login-welcome">
 
-            <div class="auth-brand">
-                👛 Budget <strong>Buddy</strong>
+    <!-- Login Section -->
+    <main class="auth-main">
+
+        <div class="auth-left">
+
+            <div class="auth-welcome">
+                <p class="small-heading">WELCOME BACK</p>
+
+                <h1>
+                    Manage your money
+                    <span>smarter.</span>
+                </h1>
+
+                <p>
+                    Welcome back to Budget Buddy! Log in to manage
+                    your budget, track expenses, monitor income,
+                    and reach your financial goals.
+                </p>
+
+                <div class="auth-features">
+                    <div>✓ Track your expenses</div>
+                    <div>✓ Manage your monthly budget</div>
+                    <div>✓ Set your financial goals</div>
+                </div>
             </div>
 
-            <div class="login-illustration">
-                💰
+        </div>
+
+
+        <div class="auth-card">
+
+            <div class="auth-card-header">
+                <div class="auth-icon">🔐</div>
+
+                <h2>Login</h2>
+
+                <p>
+                    Enter your details to continue
+                </p>
             </div>
-
-            <h1>
-                Welcome<br>
-                <span>back, Buddy!</span>
-            </h1>
-
-            <p>
-                Your finances are waiting for you.
-                Let's see how your money is doing today.
-            </p>
-
-            <div class="quote-box">
-
-                <span>“</span>
-
-                Small savings today can create
-                big possibilities tomorrow.
-
-                <span>”</span>
-
-            </div>
-
-        </section>
-
-
-        <!-- Login Card -->
-
-        <section class="auth-card">
-
-            <div class="auth-icon">
-                🔐
-            </div>
-
-            <h2>Welcome Back!</h2>
-
-            <p class="auth-subtitle">
-                Login to continue to your dashboard.
-            </p>
 
 
             <form id="loginForm">
 
-                <label for="loginEmail">
-                    Email Address
-                </label>
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
 
-                <input
-                    type="email"
-                    id="loginEmail"
-                    placeholder="Enter your email"
-                    required
-                >
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
 
 
-                <label for="loginPassword">
-                    Password
-                </label>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
 
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter your password"
-                    required
-                >
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
 
 
                 <button type="submit" class="auth-button">
-                    Login to Budget Buddy →
+                    Login →
                 </button>
+
+                <p id="loginMessage" class="form-message"></p>
 
             </form>
 
 
-            <p id="loginMessage"
-               class="message">
-            </p>
-
-
-            <div class="admin-login-box">
-
-                <strong>👑 Admin Demo</strong>
-
-                <p>
-                    Email: admin@budget.com
-                </p>
-
-                <p>
-                    Password: admin123
-                </p>
-
+            <div class="auth-divider">
+                <span>OR</span>
             </div>
 
 
-            <p class="switch-auth">
-
-                New to Budget Buddy?
-
-                <a href="signup.html">
-                    Create Account
-                </a>
-
+            <p class="auth-bottom-text">
+                Don't have an account?
+                <a href="signup.html">Create an account</a>
             </p>
 
-        </section>
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+
+
+            <div class="admin-hint">
+                <strong>Admin Login</strong>
+                <p>Email: admin@budgetbuddy.com</p>
+                <p>Password: admin123</p>
+            </div>
+
+        </div>
 
     </main>
+
+
+    <footer class="auth-footer">
+        <p>© 2026 Budget Buddy. Manage your money, achieve your goals.</p>
+    </footer>
+
 
     <script src="script.js"></script>
 
 </body>
-
 </html>

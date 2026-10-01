@@ -1,618 +1,541 @@
-/* =========================
-   ADMIN DETAILS
-========================= */
-
-const ADMIN_EMAIL = "admin@budget.com";
-const ADMIN_PASSWORD = "admin123";
+// ===============================
+// BUDGET BUDDY - SCRIPT.JS
+// ===============================
 
 
-/* =========================
-   SIGNUP
-========================= */
+// ===============================
+// SIGNUP
+// ===============================
 
 const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
+    signupForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    signupForm.addEventListener("submit", function(event) {
+        const name = document.getElementById("signupName").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const password = document.getElementById("signupPassword").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const message = document.getElementById("signupMessage");
 
-        event.preventDefault();
-
-        const name =
-            document.getElementById("signupName").value;
-
-        const email =
-            document.getElementById("signupEmail").value;
-
-        const password =
-            document.getElementById("signupPassword").value;
-
-
-        let users =
-            JSON.parse(localStorage.getItem("users")) || [];
-
-
-        const existingUser =
-            users.find(user => user.email === email);
-
-
-        if (existingUser) {
-
-            document.getElementById("signupMessage")
-                .textContent =
-                "User already exists.";
-
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match!";
+            message.style.color = "red";
             return;
         }
 
+        if (name === "" || email === "" || password === "") {
+            message.textContent = "Please fill all fields!";
+            message.style.color = "red";
+            return;
+        }
 
-        const newUser = {
-
+        // Save user details
+        const user = {
             name: name,
-
             email: email,
-
             password: password
-
         };
 
+        localStorage.setItem("budgetBuddyUser", JSON.stringify(user));
 
-        users.push(newUser);
+        // ==========================================
+        // NEW USER STARTS WITH ZERO FINANCIAL DATA
+        // ==========================================
 
+        localStorage.setItem("budget", "0");
+        localStorage.setItem("transactions", JSON.stringify([]));
+        localStorage.removeItem("goal");
 
-        localStorage.setItem(
-            "users",
-            JSON.stringify(users)
-        );
+        message.textContent = "Signup successful! Redirecting to login...";
+        message.style.color = "green";
 
-
-        document.getElementById("signupMessage")
-            .textContent =
-            "Signup successful! You can now login.";
-
-        signupForm.reset();
-
+        setTimeout(function () {
+            window.location.href = "login.html";
+        }, 1000);
     });
-
 }
 
 
-/* =========================
-   LOGIN
-========================= */
+// ===============================
+// LOGIN
+// ===============================
 
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    loginForm.addEventListener("submit", function(event) {
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        const message = document.getElementById("loginMessage");
 
-        event.preventDefault();
-
-
-        const email =
-            document.getElementById("loginEmail").value;
-
-        const password =
-            document.getElementById("loginPassword").value;
-
-
-        /* ADMIN LOGIN */
-
+        // ADMIN LOGIN
         if (
-            email === ADMIN_EMAIL &&
-            password === ADMIN_PASSWORD
+            email === "admin@budgetbuddy.com" &&
+            password === "admin123"
         ) {
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem("userRole", "admin");
 
-            localStorage.setItem(
-                "loggedInUser",
-                JSON.stringify({
-                    role: "admin",
-                    email: email
-                })
-            );
-
-
-            window.location.href =
-                "admin-dashboard.html";
-
+            window.location.href = "admin-dashboard.html";
             return;
         }
 
-
-        /* USER LOGIN */
-
-        const users =
-            JSON.parse(localStorage.getItem("users")) || [];
-
-
-        const user =
-            users.find(
-                user =>
-                    user.email === email &&
-                    user.password === password
-            );
-
-
-        if (user) {
-
-            localStorage.setItem(
-                "loggedInUser",
-                JSON.stringify({
-                    role: "user",
-                    email: user.email,
-                    name: user.name
-                })
-            );
-
-
-            window.location.href =
-                "user-dashboard.html";
-
-        } else {
-
-            document.getElementById("loginMessage")
-                .textContent =
-                "Invalid email or password.";
-
-        }
-
-    });
-
-}
-
-
-/* =========================
-   USER DASHBOARD
-========================= */
-
-if (
-    window.location.pathname.includes(
-        "user-dashboard.html"
-    )
-) {
-
-    const loggedInUser =
-        JSON.parse(
-            localStorage.getItem("loggedInUser")
+        // USER LOGIN
+        const savedUser = JSON.parse(
+            localStorage.getItem("budgetBuddyUser")
         );
 
+        if (
+            savedUser &&
+            email === savedUser.email &&
+            password === savedUser.password
+        ) {
+            localStorage.setItem("loggedIn", "true");
+            localStorage.setItem("userRole", "user");
+            localStorage.setItem("currentUserName", savedUser.name);
 
-    if (
-        !loggedInUser ||
-        loggedInUser.role !== "user"
-    ) {
+            window.location.href = "user-dashboard.html";
+        } else {
+            message.textContent = "Invalid email or password!";
+            message.style.color = "red";
+        }
+    });
+}
 
-        window.location.href =
-            "login.html";
 
-    } else {
+// ===============================
+// USER DASHBOARD
+// ===============================
 
-        document.getElementById("userName")
-            .textContent =
-            loggedInUser.name;
+if (document.getElementById("userName")) {
 
-        loadUserData();
+    // Display logged-in user's name
+    const currentUserName =
+        localStorage.getItem("currentUserName");
 
+    document.getElementById("userName").textContent =
+        currentUserName || "User";
+
+
+    // ===============================
+    // BUDGET FORM
+    // ===============================
+
+    const budgetForm = document.getElementById("budgetForm");
+
+    if (budgetForm) {
+        budgetForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const budgetInput =
+                document.getElementById("budgetInput");
+
+            const budget = Number(budgetInput.value);
+
+            if (budget < 0 || isNaN(budget)) {
+                alert("Please enter a valid budget.");
+                return;
+            }
+
+            localStorage.setItem("budget", budget);
+
+            budgetInput.value = "";
+
+            updateDashboard();
+        });
     }
 
-}
 
+    // ===============================
+    // TRANSACTION FORM
+    // ===============================
 
-/* =========================
-   BUDGET
-========================= */
+    const transactionForm =
+        document.getElementById("transactionForm");
 
-const budgetForm =
-    document.getElementById("budgetForm");
+    if (transactionForm) {
 
-
-if (budgetForm) {
-
-    budgetForm.addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
-
-            const amount =
-                Number(
-                    document.getElementById(
-                        "budgetAmount"
-                    ).value
-                );
-
-
-            localStorage.setItem(
-                "budget",
-                amount
-            );
-
-
-            document.getElementById(
-                "totalBudget"
-            ).textContent =
-                "₹" + amount;
-
-
-            updateBalance();
-
-            budgetForm.reset();
-
-        }
-    );
-
-}
-
-
-/* =========================
-   TRANSACTIONS
-========================= */
-
-const transactionForm =
-    document.getElementById(
-        "transactionForm"
-    );
-
-
-if (transactionForm) {
-
-    transactionForm.addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
-
+        transactionForm.addEventListener("submit", function (e) {
+            e.preventDefault();
 
             const type =
-                document.getElementById(
-                    "transactionType"
-                ).value;
-
-
-            const description =
-                document.getElementById(
-                    "transactionDescription"
-                ).value;
-
+                document.getElementById("transactionType").value;
 
             const amount =
                 Number(
-                    document.getElementById(
-                        "transactionAmount"
-                    ).value
+                    document.getElementById("transactionAmount").value
                 );
 
-
             const category =
-                document.getElementById(
-                    "transactionCategory"
-                ).value;
+                document.getElementById("transactionCategory").value;
 
+            const description =
+                document.getElementById("transactionDescription").value;
+
+            const date =
+                document.getElementById("transactionDate").value;
+
+            if (amount <= 0 || isNaN(amount)) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const transaction = {
+                id: Date.now(),
+                type: type,
+                amount: amount,
+                category: category,
+                description: description,
+                date: date
+            };
 
             let transactions =
                 JSON.parse(
-                    localStorage.getItem(
-                        "transactions"
-                    )
+                    localStorage.getItem("transactions")
                 ) || [];
 
-
-            const transaction = {
-
-                type: type,
-
-                description: description,
-
-                amount: amount,
-
-                category: category
-
-            };
-
-
             transactions.push(transaction);
-
 
             localStorage.setItem(
                 "transactions",
                 JSON.stringify(transactions)
             );
 
-
-            displayTransactions();
-
-            updateBalance();
-
             transactionForm.reset();
 
-        }
-    );
-
-}
-
-
-/* =========================
-   DISPLAY TRANSACTIONS
-========================= */
-
-function displayTransactions() {
-
-    const transactionList =
-        document.getElementById(
-            "transactionList"
-        );
-
-
-    if (!transactionList) return;
-
-
-    const transactions =
-        JSON.parse(
-            localStorage.getItem(
-                "transactions"
-            )
-        ) || [];
-
-
-    transactionList.innerHTML = "";
-
-
-    transactions.forEach(
-        function(transaction) {
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${transaction.description}
-                </td>
-
-                <td>
-                    ${transaction.type}
-                </td>
-
-                <td>
-                    ${transaction.category}
-                </td>
-
-                <td>
-                    ₹${transaction.amount}
-                </td>
-
-            `;
-
-
-            transactionList.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* =========================
-   UPDATE BALANCE
-========================= */
-
-function updateBalance() {
-
-    const transactions =
-        JSON.parse(
-            localStorage.getItem(
-                "transactions"
-            )
-        ) || [];
-
-
-    let income = 0;
-
-    let expense = 0;
-
-
-    transactions.forEach(
-        function(transaction) {
-
-            if (
-                transaction.type ===
-                "income"
-            ) {
-
-                income +=
-                    transaction.amount;
-
-            } else {
-
-                expense +=
-                    transaction.amount;
-
-            }
-
-        }
-    );
-
-
-    const balance =
-        income - expense;
-
-
-    const incomeElement =
-        document.getElementById(
-            "totalIncome"
-        );
-
-
-    const expenseElement =
-        document.getElementById(
-            "totalExpense"
-        );
-
-
-    const balanceElement =
-        document.getElementById(
-            "balance"
-        );
-
-
-    if (incomeElement)
-        incomeElement.textContent =
-            "₹" + income;
-
-
-    if (expenseElement)
-        expenseElement.textContent =
-            "₹" + expense;
-
-
-    if (balanceElement)
-        balanceElement.textContent =
-            "₹" + balance;
-
-}
-
-
-/* =========================
-   LOAD USER DATA
-========================= */
-
-function loadUserData() {
-
-    const budget =
-        Number(
-            localStorage.getItem(
-                "budget"
-            )
-        ) || 0;
-
-
-    const budgetElement =
-        document.getElementById(
-            "totalBudget"
-        );
-
-
-    if (budgetElement) {
-
-        budgetElement.textContent =
-            "₹" + budget;
-
+            loadTransactions();
+            updateDashboard();
+        });
     }
 
 
-    displayTransactions();
+    // ===============================
+    // LOAD DASHBOARD
+    // ===============================
 
-    updateBalance();
-
+    updateDashboard();
+    loadTransactions();
+    loadGoal();
 }
 
 
-/* =========================
-   ADMIN DASHBOARD
-========================= */
+// ===============================
+// UPDATE DASHBOARD
+// ===============================
 
-if (
-    window.location.pathname.includes(
-        "admin-dashboard.html"
-    )
-) {
+function updateDashboard() {
 
-    const loggedInUser =
+    const budget =
+        Number(localStorage.getItem("budget")) || 0;
+
+    const transactions =
         JSON.parse(
-            localStorage.getItem(
-                "loggedInUser"
-            )
+            localStorage.getItem("transactions")
+        ) || [];
+
+
+    let totalIncome = 0;
+    let totalExpenses = 0;
+
+
+    transactions.forEach(function (transaction) {
+
+        if (transaction.type === "Income") {
+            totalIncome += Number(transaction.amount);
+        }
+
+        if (transaction.type === "Expense") {
+            totalExpenses += Number(transaction.amount);
+        }
+
+    });
+
+
+    // Remaining balance = budget - expenses + income
+    const remaining =
+        budget - totalExpenses + totalIncome;
+
+
+    // Display values
+    const budgetDisplay =
+        document.getElementById("budgetDisplay");
+
+    const incomeDisplay =
+        document.getElementById("incomeDisplay");
+
+    const expenseDisplay =
+        document.getElementById("expenseDisplay");
+
+    const remainingDisplay =
+        document.getElementById("remainingDisplay");
+
+
+    if (budgetDisplay) {
+        budgetDisplay.textContent =
+            "₹" + budget.toLocaleString("en-IN");
+    }
+
+    if (incomeDisplay) {
+        incomeDisplay.textContent =
+            "₹" + totalIncome.toLocaleString("en-IN");
+    }
+
+    if (expenseDisplay) {
+        expenseDisplay.textContent =
+            "₹" + totalExpenses.toLocaleString("en-IN");
+    }
+
+    if (remainingDisplay) {
+        remainingDisplay.textContent =
+            "₹" + remaining.toLocaleString("en-IN");
+    }
+}
+
+
+// ===============================
+// LOAD TRANSACTIONS
+// ===============================
+
+function loadTransactions() {
+
+    const table =
+        document.getElementById("transactionTable");
+
+    if (!table) return;
+
+
+    const transactions =
+        JSON.parse(
+            localStorage.getItem("transactions")
+        ) || [];
+
+
+    table.innerHTML = "";
+
+
+    if (transactions.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    No transactions yet.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    transactions.forEach(function (transaction) {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${transaction.type}</td>
+            <td>₹${Number(transaction.amount).toLocaleString("en-IN")}</td>
+            <td>${transaction.category}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.date}</td>
+            <td>
+                <button 
+                    class="delete-btn"
+                    onclick="deleteTransaction(${transaction.id})">
+                    🗑️ Delete
+                </button>
+            </td>
+        `;
+
+        table.appendChild(row);
+    });
+}
+
+
+// ===============================
+// DELETE TRANSACTION
+// ===============================
+
+function deleteTransaction(id) {
+
+    const confirmDelete =
+        confirm("Are you sure you want to delete this transaction?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    let transactions =
+        JSON.parse(
+            localStorage.getItem("transactions")
+        ) || [];
+
+
+    transactions =
+        transactions.filter(function (transaction) {
+            return transaction.id !== id;
+        });
+
+
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
+
+
+    loadTransactions();
+    updateDashboard();
+}
+
+
+// ===============================
+// GOALS
+// ===============================
+
+const goalForm = document.getElementById("goalForm");
+
+if (goalForm) {
+
+    goalForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const name =
+            document.getElementById("goalName").value.trim();
+
+        const amount =
+            Number(
+                document.getElementById("goalAmount").value
+            );
+
+
+        if (name === "" || amount <= 0) {
+            alert("Please enter valid goal details.");
+            return;
+        }
+
+
+        const goal = {
+            name: name,
+            amount: amount
+        };
+
+
+        localStorage.setItem(
+            "goal",
+            JSON.stringify(goal)
         );
 
 
-    if (
-        !loggedInUser ||
-        loggedInUser.role !== "admin"
-    ) {
+        loadGoal();
 
-        window.location.href =
-            "login.html";
+        goalForm.reset();
+    });
+}
+
+
+// ===============================
+// LOAD GOAL
+// ===============================
+
+function loadGoal() {
+
+    const goalDisplay =
+        document.getElementById("goalDisplay");
+
+    if (!goalDisplay) return;
+
+
+    const goal =
+        JSON.parse(
+            localStorage.getItem("goal")
+        );
+
+
+    if (goal) {
+
+        goalDisplay.innerHTML = `
+            <strong>${goal.name}</strong>
+            <p>Target: ₹${Number(goal.amount).toLocaleString("en-IN")}</p>
+        `;
 
     } else {
 
-        loadUsers();
-
+        goalDisplay.innerHTML = `
+            <p>No financial goal added yet.</p>
+        `;
     }
-
 }
 
 
-/* =========================
-   DISPLAY USERS
-========================= */
-
-function loadUsers() {
-
-    const userList =
-        document.getElementById(
-            "userList"
-        );
-
-
-    if (!userList) return;
-
-
-    const users =
-        JSON.parse(
-            localStorage.getItem(
-                "users"
-            )
-        ) || [];
-
-
-    userList.innerHTML = "";
-
-
-    users.forEach(
-        function(user) {
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${user.name}
-                </td>
-
-                <td>
-                    ${user.email}
-                </td>
-
-            `;
-
-
-            userList.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
+// ===============================
+// LOGOUT
+// ===============================
 
 function logout() {
 
-    localStorage.removeItem(
-        "loggedInUser"
-    );
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("currentUserName");
+
+    window.location.href = "login.html";
+}
 
 
-    window.location.href =
-        "login.html";
+// ===============================
+// ADMIN DASHBOARD
+// ===============================
 
+if (document.getElementById("registeredUsers")) {
+
+    const savedUser =
+        JSON.parse(
+            localStorage.getItem("budgetBuddyUser")
+        );
+
+    if (savedUser) {
+
+        document.getElementById("registeredUsers").textContent = "1";
+
+        const userInfo =
+            document.getElementById("userInfo");
+
+        if (userInfo) {
+            userInfo.innerHTML = `
+                <p><strong>Name:</strong> ${savedUser.name}</p>
+                <p><strong>Email:</strong> ${savedUser.email}</p>
+            `;
+        }
+    }
+
+
+    const budget =
+        Number(localStorage.getItem("budget")) || 0;
+
+    const transactions =
+        JSON.parse(
+            localStorage.getItem("transactions")
+        ) || [];
+
+
+    const totalBudget =
+        document.getElementById("totalBudget");
+
+    const totalTransactions =
+        document.getElementById("totalTransactions");
+
+
+    if (totalBudget) {
+        totalBudget.textContent =
+            "₹" + budget.toLocaleString("en-IN");
+    }
+
+    if (totalTransactions) {
+        totalTransactions.textContent =
+            transactions.length;
+    }
 }

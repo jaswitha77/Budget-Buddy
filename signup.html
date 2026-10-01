@@ -1,132 +1,176 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Join Budget Buddy</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Budget Buddy</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
-<body class="purple-page">
+<body class="auth-page">
 
-    <main class="auth-page">
+    <!-- Navbar -->
+    <nav class="auth-navbar">
 
-        <!-- Left Welcome Section -->
+        <div class="logo">
+            💜 Budget Buddy
+        </div>
 
-        <section class="auth-welcome">
+        <div class="auth-nav-links">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+        </div>
 
-            <div class="auth-brand">
-                👛 Budget <strong>Buddy</strong>
-            </div>
+    </nav>
 
-            <div class="auth-decoration">
-                💜
-            </div>
 
-            <h1>
-                Start your<br>
-                <span>money journey.</span>
-            </h1>
+    <!-- Signup Main -->
+    <main class="auth-main signup-main">
 
-            <p>
-                Create your Budget Buddy account and
-                take the first step towards smarter
-                spending and better saving.
-            </p>
+        <div class="auth-left">
 
-            <div class="auth-points">
+            <div class="auth-welcome">
 
-                <div>
-                    ✨ Track your spending
+                <p class="small-heading">
+                    GET STARTED
+                </p>
+
+                <h1>
+                    Take control of
+                    <span>your finances.</span>
+                </h1>
+
+                <p>
+                    Create your Budget Buddy account and start
+                    managing your money in a simple and organized way.
+                </p>
+
+
+                <div class="auth-features">
+
+                    <div>✓ Create your personal budget</div>
+
+                    <div>✓ Track income and expenses</div>
+
+                    <div>✓ Set and monitor financial goals</div>
+
+                    <div>✓ Keep everything organized</div>
+
                 </div>
 
-                <div>
-                    🎯 Set your goals
-                </div>
-
-                <div>
-                    💰 Stay on budget
-                </div>
-
             </div>
 
-        </section>
+        </div>
 
 
-        <!-- Signup Form -->
+        <!-- Signup Card -->
+        <div class="auth-card signup-card">
 
-        <section class="auth-card">
+            <div class="auth-card-header">
 
-            <div class="auth-icon">
-                ✨
+                <div class="auth-icon">
+                    ✨
+                </div>
+
+                <h2>
+                    Create Account
+                </h2>
+
+                <p>
+                    Join Budget Buddy today
+                </p>
+
             </div>
-
-            <h2>Create Account</h2>
-
-            <p class="auth-subtitle">
-                Your smarter financial journey starts here.
-            </p>
 
 
             <form id="signupForm">
 
-                <label for="signupName">
-                    Full Name
-                </label>
+                <div class="form-group">
 
-                <input
-                    type="text"
-                    id="signupName"
-                    placeholder="Enter your name"
-                    required
+                    <label for="signupName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="signupEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="signupPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
                 >
-
-
-                <label for="signupEmail">
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="signupEmail"
-                    placeholder="Enter your email"
-                    required
-                >
-
-
-                <label for="signupPassword">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="signupPassword"
-                    placeholder="Create a password"
-                    required
-                >
-
-
-                <button type="submit" class="auth-button">
-                    Create My Account →
+                    Create Account →
                 </button>
+
+
+                <p
+                    id="signupMessage"
+                    class="form-message"
+                ></p>
 
             </form>
 
 
-            <p id="signupMessage"
-               class="message">
-            </p>
+            <div class="auth-divider">
+                <span>OR</span>
+            </div>
 
 
-            <p class="switch-auth">
+            <p class="auth-bottom-text">
 
                 Already have an account?
 
@@ -136,12 +180,29 @@
 
             </p>
 
-        </section>
+
+            <a
+                href="index.html"
+                class="back-home"
+            >
+                ← Back to Home
+            </a>
+
+        </div>
 
     </main>
+
+
+    <footer class="auth-footer">
+
+        <p>
+            © 2026 Budget Buddy. Start your financial journey today.
+        </p>
+
+    </footer>
+
 
     <script src="script.js"></script>
 
 </body>
-
 </html>

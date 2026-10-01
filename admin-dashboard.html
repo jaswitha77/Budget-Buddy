@@ -1,288 +1,391 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Admin Panel | Budget Buddy</title>
+    <title>Admin Dashboard - Budget Buddy</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
-<body class="dashboard-page">
+
+<body class="admin-page">
 
 
-    <!-- Admin Sidebar -->
+    <!-- Sidebar -->
 
-    <aside class="sidebar admin-sidebar">
+    <aside class="admin-sidebar">
 
-        <div class="sidebar-logo">
-            👛 <span>Budget <strong>Buddy</strong></span>
+        <div class="admin-logo">
+
+            <div class="logo-circle">
+                💜
+            </div>
+
+            <div>
+                <h2>Budget Buddy</h2>
+                <span>Admin Panel</span>
+            </div>
+
         </div>
 
 
-        <div class="admin-badge">
-            👑 ADMIN PANEL
-        </div>
+        <nav class="admin-nav">
 
-
-        <nav class="side-nav">
-
-            <a href="admin-dashboard.html"
-               class="side-link active">
-
-                🏠 Dashboard
-
+            <a href="#" class="admin-nav-item active">
+                🏠
+                <span>Dashboard</span>
             </a>
 
-            <a href="#users"
-               class="side-link">
+            <a href="#users" class="admin-nav-item">
+                👥
+                <span>Users</span>
+            </a>
 
-                👥 Users
+            <a href="#budget" class="admin-nav-item">
+                💰
+                <span>Budgets</span>
+            </a>
 
+            <a href="#transactions" class="admin-nav-item">
+                📊
+                <span>Transactions</span>
+            </a>
+
+            <a href="#system" class="admin-nav-item">
+                ⚙️
+                <span>System Status</span>
             </a>
 
         </nav>
 
 
-        <div class="sidebar-bottom">
-
-            <div class="side-tip">
-
-                🛡️ <strong>Administrator</strong>
-
-                <p>
-                    Manage your Budget Buddy
-                    community.
-                </p>
-
-            </div>
-
-
-            <button
-                onclick="logout()"
-                class="side-logout">
-
-                🚪 Logout
-
-            </button>
-
-        </div>
+        <button
+            class="admin-logout"
+            onclick="logout()"
+        >
+            🚪 Logout
+        </button>
 
     </aside>
 
 
-    <!-- Admin Main -->
+    <!-- Main Admin Area -->
 
-    <main class="dashboard-main">
+    <main class="admin-main">
 
 
-        <header class="dashboard-top">
+        <!-- Header -->
+
+        <header class="admin-header">
 
             <div>
 
-                <p class="small-heading">
-                    ADMINISTRATION
+                <p class="admin-small-title">
+                    BUDGET BUDDY ADMINISTRATION
                 </p>
 
                 <h1>
-                    Welcome, Admin! 👑
+                    Admin Dashboard
                 </h1>
 
                 <p>
-                    Manage and monitor Budget Buddy users.
+                    Monitor and manage your Budget Buddy application.
                 </p>
 
             </div>
 
 
-            <div class="profile-circle admin-profile">
-                👑
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                    <span>
+                        System Admin
+                    </span>
+
+                </div>
+
             </div>
 
         </header>
 
 
-        <!-- Admin Stats -->
+        <!-- Statistics -->
 
-        <section class="dashboard-cards">
+        <section class="admin-stats">
 
-            <div class="dashboard-card purple-card">
 
-                <div class="card-top">
+            <div class="admin-stat-card">
 
-                    <span>
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div>
+
+                    <p>
                         Registered Users
-                    </span>
+                    </p>
 
-                    <span class="card-icon">
-                        👥
-                    </span>
+                    <h2 id="registeredUsers">
+                        0
+                    </h2>
 
                 </div>
-
-                <h2 id="adminUserCount">
-                    —
-                </h2>
-
-                <p>
-                    Users in Budget Buddy
-                </p>
 
             </div>
 
 
-            <div class="dashboard-card green-card">
+            <div
+                class="admin-stat-card"
+                id="budget"
+            >
 
-                <div class="card-top">
-
-                    <span>
-                        Platform
-                    </span>
-
-                    <span class="card-icon">
-                        🌱
-                    </span>
-
+                <div class="stat-icon">
+                    💰
                 </div>
 
-                <h2>
-                    Active
-                </h2>
+                <div>
 
-                <p>
-                    System status
-                </p>
+                    <p>
+                        Total Budget
+                    </p>
+
+                    <h2 id="totalBudget">
+                        ₹0
+                    </h2>
+
+                </div>
 
             </div>
 
 
-            <div class="dashboard-card pink-card">
+            <div
+                class="admin-stat-card"
+                id="transactions"
+            >
 
-                <div class="card-top">
-
-                    <span>
-                        Access
-                    </span>
-
-                    <span class="card-icon">
-                        🔐
-                    </span>
-
+                <div class="stat-icon">
+                    📊
                 </div>
 
-                <h2>
-                    Admin
-                </h2>
+                <div>
 
-                <p>
-                    Current role
-                </p>
+                    <p>
+                        Total Transactions
+                    </p>
+
+                    <h2 id="totalTransactions">
+                        0
+                    </h2>
+
+                </div>
 
             </div>
 
 
-            <div class="dashboard-card blue-card">
+            <div class="admin-stat-card">
 
-                <div class="card-top">
+                <div class="stat-icon">
+                    ✅
+                </div>
 
-                    <span>
-                        Technology
-                    </span>
+                <div>
 
-                    <span class="card-icon">
-                        💻
-                    </span>
+                    <p>
+                        System Status
+                    </p>
+
+                    <h2 class="active-status">
+                        Active
+                    </h2>
 
                 </div>
 
-                <h2>
-                    Web
-                </h2>
-
-                <p>
-                    HTML • CSS • JS
-                </p>
-
             </div>
+
 
         </section>
 
 
-        <!-- User Management -->
+        <!-- Content Grid -->
 
-        <section id="users"
-                 class="dashboard-section">
+        <section class="admin-content-grid">
 
-            <div class="section-heading">
 
-                <div>
+            <!-- Registered Users -->
 
-                    <span class="section-label">
-                        USER MANAGEMENT
-                    </span>
+            <div
+                class="admin-panel-card"
+                id="users"
+            >
 
-                    <h2>
-                        Registered Users 👥
-                    </h2>
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h2>
+                            👥 Registered User
+                        </h2>
+
+                        <p>
+                            Current Budget Buddy user
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="userInfo"
+                    class="user-info-box"
+                >
 
                     <p>
-                        View the users registered
-                        in Budget Buddy.
+                        No registered user information available.
                     </p>
 
                 </div>
 
-                <div class="section-emoji">
-                    👥
+            </div>
+
+
+            <!-- System Information -->
+
+            <div
+                class="admin-panel-card"
+                id="system"
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h2>
+                            ⚙️ System Information
+                        </h2>
+
+                        <p>
+                            Application details
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-info">
+
+                    <div class="system-row">
+
+                        <span>
+                            Application
+                        </span>
+
+                        <strong>
+                            Budget Buddy
+                        </strong>
+
+                    </div>
+
+
+                    <div class="system-row">
+
+                        <span>
+                            Version
+                        </span>
+
+                        <strong>
+                            1.0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="system-row">
+
+                        <span>
+                            Storage
+                        </span>
+
+                        <strong>
+                            Local Storage
+                        </strong>
+
+                    </div>
+
+
+                    <div class="system-row">
+
+                        <span>
+                            System Status
+                        </span>
+
+                        <strong class="status-badge">
+                            ● Active
+                        </strong>
+
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <div class="table-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Name
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                        </tr>
-
-                    </thead>
+        </section>
 
 
-                    <tbody id="userList">
+        <!-- Bottom Information -->
 
-                    </tbody>
+        <section class="admin-welcome-box">
 
-                </table>
+            <div class="welcome-icon">
+                💜
+            </div>
+
+            <div>
+
+                <h2>
+                    Welcome to Budget Buddy Administration
+                </h2>
+
+                <p>
+                    Use this dashboard to monitor registered users,
+                    budgets, transactions, and the overall status
+                    of the Budget Buddy application.
+                </p>
 
             </div>
 
         </section>
 
 
-        <footer class="dashboard-footer">
+        <footer class="admin-footer">
 
-            Budget Buddy Admin Panel 💜
+            © 2026 Budget Buddy · Admin Panel
 
         </footer>
+
 
     </main>
 
@@ -290,5 +393,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>
